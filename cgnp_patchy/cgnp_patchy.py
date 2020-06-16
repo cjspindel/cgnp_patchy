@@ -90,6 +90,47 @@ class MMM(mb.Compound):
         self.add(mb.Port(anchor=self[0], orientation=[0, 1, 0], separation=0.15), 'up')
         self.add(mb.Port(anchor=self[0], orientation=[0, -1, 0], separation=0.15), 'down')
 
+class CG_alkane(mb.Compound):
+    """ A coarse-grained, alkane chain, with three carbons to a CG bead, optionally terminated by CH3 particles """
+    def __init__(self, n=6, cap_front=True, cap_end=True):
+        """ Initalize a CG_alkane Compound.
+
+        Parameters:
+        ----------
+        n : int
+            Number of backbone particles
+        cap_front : boolean
+            Add methyl gropu to beginning of chain ('down' port)
+        cap_end : boolean
+            Add methyl group to end of chain ('up' port)
+        """
+
+        super(CG_alkane, self).__init__()
+
+        # Adjust length of Polymer for absense of methyl terminations.
+        if not cap_front:
+            n += 1
+        if not cap_end:
+            n += 1
+        chain = mb.Polymer(MMM(), n=n-2, port_labels=('up', 'down'))
+        self.add(chain, 'chain')
+        if cap_front:
+            self.add(MME(), 'methyl_front')
+            mb.force_overlap(self['chain'], self['chain']['up'],
+                             self['methyl_front']['up'])
+        else:
+            # Hoise part label to CG_alkane level.
+            self.add(chain['up'], 'up', containment=False)
+
+        if cap_end:
+            self.add(MME(), 'methyl_end')
+            mb.force_overlap(self['methyl_end'], self['methyl_end']['up'],
+                             self['chain']['down'])
+        else:
+            # Hoist port label to CG_alkane level.
+            self.add(chain['down'], 'down', containment=False)
+
+
 class cgnp_patchy(mb.Compound):
     """
     Example class that would go in your recipe.
