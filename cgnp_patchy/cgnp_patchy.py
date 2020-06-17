@@ -92,13 +92,13 @@ class MMM(mb.Compound):
 
 class CG_alkane(mb.Compound):
     """ A coarse-grained, alkane chain, with three carbons to a CG bead, optionally terminated by CH3 particles """
-    def __init__(self, n=6, cap_front=True, cap_end=True):
+    def __init__(self, n=6, cap_front=False, cap_end=True):
         """ Initalize a CG_alkane Compound.
 
         Parameters:
         ----------
         n : int
-            Number of backbone particles
+            Number of cg alkane particles in chain
         cap_front : boolean
             Add methyl gropu to beginning of chain ('down' port)
         cap_end : boolean
@@ -120,7 +120,7 @@ class CG_alkane(mb.Compound):
                              self['methyl_front']['up'])
         else:
             # Hoise part label to CG_alkane level.
-            self.add(chain['up'], 'up', containment=False)
+            self.add(chain['up'], label='up', containment=False)
 
         if cap_end:
             self.add(MME(), 'methyl_end')
@@ -128,7 +128,7 @@ class CG_alkane(mb.Compound):
                              self['chain']['down'])
         else:
             # Hoist port label to CG_alkane level.
-            self.add(chain['down'], 'down', containment=False)
+            self.add(chain['down'], label='down', containment=False)
 
 
 class cgnp_patchy(mb.Compound):
@@ -170,7 +170,7 @@ class cgnp_patchy(mb.Compound):
             port = mb.Port(anchor=self['nanoparticle'], orientation=pos, separation=radius)
             self['nanoparticle'].add(port, "port[$]")
 
-        chain_protos, empty_backfill = isotropic_pattern.apply_to_compound(chain, guest_port_name='up', host=self['nanoparticle'])
+        chain_protos, empty_backfill = isotropic_pattern.apply_to_compound(guest=chain, guest_port_name='up', host=self['nanoparticle'])
         self.add(chain_protos)
 
         if backfill:
