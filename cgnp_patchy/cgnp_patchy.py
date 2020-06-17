@@ -100,7 +100,7 @@ class CG_alkane(mb.Compound):
         n : int
             Number of cg alkane particles in chain
         cap_front : boolean
-            Add methyl gropu to beginning of chain ('down' port)
+            Add methyl group to beginning of chain ('down' port)
         cap_end : boolean
             Add methyl group to end of chain ('up' port)
         """
@@ -119,7 +119,7 @@ class CG_alkane(mb.Compound):
             mb.force_overlap(self['chain'], self['chain']['up'],
                              self['methyl_front']['up'])
         else:
-            # Hoise part label to CG_alkane level.
+            # Hoist port label to CG_alkane level.
             self.add(chain['up'], label='up', containment=False)
 
         if cap_end:
@@ -140,7 +140,7 @@ class cgnp_patchy(mb.Compound):
     radius : float
         Radius of the nanoparticle (nm)
     bead_diameter : float
-        Diameter of CG particles in the nanopartciel core (nm)
+        Diameter of CG particles in the nanoparticle core (nm)
     chain : mb.Compound
         Prototype of alkane chain to attach to the nanoparticle core
     chain_density : float
