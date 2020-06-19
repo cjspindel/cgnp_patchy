@@ -58,7 +58,7 @@ class Nanoparticle(mb.Compound):
 
         for i, pos in enumerate(points):
             particle = mb.Compound(name="_CGN", pos=pos)
-            self.add(particle, "_CGN[$]")
+            self.add(particle, "CGN_{}".format(i))
 
     def _check_overlap(self, points, radius):
         """ Determines if there is any overlap for a set of uniform spheres.
@@ -153,32 +153,40 @@ class cgnp_patchy(mb.Compound):
         super(cgnp_patchy, self).__init__()
 
         self.bead_diameter = bead_diameter
-        chain = CG_alkane()
 
         nano = Nanoparticle(radius, bead_diameter)
-        self.add(nano, "nanoparticle")
+        self.add(nano, 'nanoparticle')
 
         isotropic_pattern = mb.SpherePattern(int(chain_density*4.0*np.pi*radius**2.0))
         isotropic_pattern.scale(radius)
-
+        
         if backfill:
             backfill_points = []
             for point in isotropic_pattern.points:
                 if not np.all(np.isin(point, isotropic_pattern.points)):
                     backfill_points.append(point)
+        
+        # Hacky workaround until apply_to_compound below can be used
         for pos in isotropic_pattern.points:
             port = mb.Port(anchor=self['nanoparticle'], orientation=pos, separation=radius)
-            self['nanoparticle'].add(port, "port[$]")
+            self['nanoparticle'].add(port, 'port[$]')
+            print('port added')
+            chain = CG_alkane()
+            self.add(chain)
+            mb.force_overlap(chain, chain['up'], port)  
+            print('chain added')
 
-        chain_protos, empty_backfill = isotropic_pattern.apply_to_compound(guest=chain, guest_port_name='up', host=self['nanoparticle'])
-        self.add(chain_protos)
+        #chain_protos, empty_backfill = isotropic_pattern.apply_to_compound(guest=chain, guest_port_name='up', host=self['nanoparticle'])
+        #self.add(chain_protos)
 
+        
         if backfill:
             isotropic_pattern.points = np.array(backfill_points)
             for pos in pattern.points:
                 port = mb.Port(anchor=self['nanoparticle'], orientation=pos, separation=radius)
             backfill_protos, empty_backfill = pattern.apply_to_compound(backfill, guest_port_name='up', host=self['nanoparticle'])
             self.add(backfill_protos)
+       
 
         self.label_rigid_bodies(rigid_particles='_CGN')
 
