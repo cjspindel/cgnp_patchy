@@ -3,29 +3,30 @@ import numpy as np
 from cgnp_patchy.lib.moieties import MMM, MME
 
 class CG_alkane(mb.Compound):
-    """ A coarse-grained, alkane chain, with three carbons to a CG bead, optionally terminated by CH3 particles """
     def __init__(self, n=6, cap_front=False, cap_end=True):
-        """ Initalize a CG_alkane Compound.
+        """ A coarse-grained, alkane chain with three carbons to a CG bead. Optionally terminated by CH3 particles.
 
-        Parameters:
+        Parameters
         ----------
         n : int
-            Number of cg alkane particles in chain
+            Number of cg alkane beads in chain. Beads are coarse-grained 3:1.
         cap_front : boolean
-            Add methyl group to beginning of chain ('down' port)
+            Add methyl group to beginning of chain ('down' port). May currently cause problems attaching chain to nanoparticle.
         cap_end : boolean
-            Add methyl group to end of chain ('up' port)
+            Add methyl group to end of chain ('up' port).
         """
 
         super(CG_alkane, self).__init__()
 
-        # Adjust length of Polymer for absense of methyl terminations.
+        # Adjust length of polymer for absense of methyl terminations.
         if not cap_front:
             n += 1
         if not cap_end:
             n += 1
         chain = mb.recipes.Polymer(MMM(), n=n-2, port_labels=('up', 'down'))
         self.add(chain, 'chain')
+        
+        # Add cap to front of chain. 
         if cap_front:
             self.add(MME(), 'methyl_front')
             mb.force_overlap(self['chain'], self['chain']['up'],
@@ -34,6 +35,7 @@ class CG_alkane(mb.Compound):
             # Hoist port label to CG_alkane level.
             self.add(chain['up'], label='up', containment=False)
 
+        # Add cap to end of chain.
         if cap_end:
             self.add(MME(), 'methyl_end')
             mb.force_overlap(self['methyl_end'], self['methyl_end']['up'],
