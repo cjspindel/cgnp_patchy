@@ -22,10 +22,11 @@ class BaseTest:
     def GraftedNanoparticle(self):
         return cgnp_patchy(radius=2.5, bead_diameter=0.6, chain_density=2.0)
 
-def test_cgnp_patchy_imported():
-    """ Sample test, will always pass so long as import statement worked """
-    assert "cgnp_patchy" in sys.modules
+class TestCGNPBuilder(BaseTest):
+    def test_cgnp_patchy_imported():
+        """ Sample test, will always pass so long as import statement worked """
+        assert "cgnp_patchy" in sys.modules
 
-def test_import():
-    """ Test that mBuild recipe import works """
-    assert "cgnp_patchy" in vars(mb.recipes).keys()
+    def test_import():
+        """ Test that mBuild recipe import works """
+        assert "cgnp_patchy" in vars(mb.recipes).keys()
