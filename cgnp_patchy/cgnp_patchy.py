@@ -16,7 +16,7 @@ class cgnp_patchy(mb.Compound):
     bead_diameter : float
         Diameter of CG particles in the nanoparticle core (nm)
     chain : mb.Compound
-        Prototype of alkane chain to attach to the nanoparticle core
+        Prototype of alkane chain to attach to the nanoparticle core. Not currently implemented.
     chain_density : float
         Density of chain coating on the nanoparticle (chains / nm^2)
     backfill : mb.Compound, optional, default=None
@@ -32,7 +32,6 @@ class cgnp_patchy(mb.Compound):
 
         self.bead_diameter = bead_diameter
         
-        chain = CG_alkane()
         nano = Nanoparticle(radius, bead_diameter)
         self.add(nano, 'nanoparticle')
 
@@ -62,30 +61,34 @@ class cgnp_patchy(mb.Compound):
 
         if backfill and coating_pattern == 'random':
             raise Exception("Backfill not supported for coating pattern type 'random'.")
-
+        
         if backfill:
             backfill_points = []
             for point in isotropic_pattern.points:
-                if not np.all(np.isin(point, isotropic_pattern.points)):
+                if not np.all(np.isin(point, pattern.points)):
                     backfill_points.append(point)
         
         # Hacky workaround until apply_to_compound below can be used
         for pos in pattern.points:
             port = mb.Port(anchor=self['nanoparticle'], orientation=pos, separation=radius)
             self['nanoparticle'].add(port, 'port[$]')
+            chain = CG_alkane()
             self.add(chain)
             mb.force_overlap(chain, chain['up'], port)  
-
         #chain_protos, empty_backfill = isotropic_pattern.apply_to_compound(guest=chain, guest_port_name='up', host=self['nanoparticle'])
         #self.add(chain_protos)
-
-        
+       
         if backfill:
             pattern.points = np.array(backfill_points)
+            # Problems with apply_to_compound again, temporarily replaced with workaround used with pattern
             for pos in pattern.points:
                 port = mb.Port(anchor=self['nanoparticle'], orientation=pos, separation=radius)
-            backfill_protos, empty_backfill = pattern.apply_to_compound(backfill, guest_port_name='up', host=self['nanoparticle'])
-            self.add(backfill_protos)
+                self['nanoparticle'].add(port, 'b_port[$]')
+                b_chain = mb.clone(backfill)
+                self.add(b_chain)
+                mb.force_overlap(b_chain, b_chain['up'], port)
+            #backfill_protos, empty_backfill = pattern.apply_to_compound(backfill, guest_port_name='up', host=self['nanoparticle'])
+            #self.add(backfill_protos)
        
 
         self.label_rigid_bodies(rigid_particles='_CGN')
