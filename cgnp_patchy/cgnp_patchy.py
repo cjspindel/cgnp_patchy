@@ -2,7 +2,7 @@ import mbuild as mb
 import numpy as np
 
 from cgnp_patchy.lib.nanoparticles import Nanoparticle
-from cgnp_patchy.lib.chains import CG_alkane
+from cgnp_patchy.lib.chains import CGAlkane
 from cgnp_patchy.lib.patterns import *
 
 class cgnp_patchy(mb.Compound):
@@ -72,7 +72,7 @@ class cgnp_patchy(mb.Compound):
         for pos in pattern.points:
             port = mb.Port(anchor=self['nanoparticle'], orientation=pos, separation=radius)
             self['nanoparticle'].add(port, 'port[$]')
-            chain = CG_alkane()
+            chain = CGAlkane()
             self.add(chain)
             mb.force_overlap(chain, chain['up'], port)  
         #chain_protos, empty_backfill = isotropic_pattern.apply_to_compound(guest=chain, guest_port_name='up', host=self['nanoparticle'])
