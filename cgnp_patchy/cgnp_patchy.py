@@ -1,10 +1,5 @@
-from __future__ import division
-
-import math
-
 import mbuild as mb
 import numpy as np
-from scipy.spatial import distance
 
 from cgnp_patchy.lib.nanoparticles import Nanoparticle
 from cgnp_patchy.lib.chains import CG_alkane
@@ -36,7 +31,8 @@ class cgnp_patchy(mb.Compound):
         super(cgnp_patchy, self).__init__()
 
         self.bead_diameter = bead_diameter
-
+        
+        chain = CG_alkane()
         nano = Nanoparticle(radius, bead_diameter)
         self.add(nano, 'nanoparticle')
 
@@ -77,7 +73,6 @@ class cgnp_patchy(mb.Compound):
         for pos in pattern.points:
             port = mb.Port(anchor=self['nanoparticle'], orientation=pos, separation=radius)
             self['nanoparticle'].add(port, 'port[$]')
-            chain = CG_alkane()
             self.add(chain)
             mb.force_overlap(chain, chain['up'], port)  
 
