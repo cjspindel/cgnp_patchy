@@ -8,6 +8,7 @@ import pytest
 import sys
 import mbuild as mb
 import numpy as np
+from cgnp_patchy.lib.chains import CGAlkane
 
 '''
 class BaseTest:
@@ -33,6 +34,10 @@ def test_cgnp_patchy_imported():
 def test_import():
     """ Test that mBuild recipe import works """
     assert "cgnp_patchy" in vars(mb.recipes).keys()
+
+def test_alkane():
+    chain = CGAlkane() 
+    return chain
 
 def test_save():
     nanoparticle = mb.recipes.cgnp_patchy(radius=2.5, bead_diameter=0.6, chain_density=2.0) 
