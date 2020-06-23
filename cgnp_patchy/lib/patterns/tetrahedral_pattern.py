@@ -248,8 +248,14 @@ class TetrahedralPattern(mb.Pattern):
                 points.append(xyz)
             else:
                 continue'''
+       
+        # This pattern was written backwards, meaning that it returned the patches instead of everything but the patches. The code below is a temporary way to fix this until the math can be altered.
+        reverse_pattern = []
+        for point in pattern:
+            if not np.all(np.isin(point, points)):
+                reverse_pattern.append(point)
 
-        super(TetrahedralPattern, self).__init__(points=points, orientations=None)
+        super(TetrahedralPattern, self).__init__(points=reverse_pattern, orientations=None)
 
 
 if __name__ == "__main__":

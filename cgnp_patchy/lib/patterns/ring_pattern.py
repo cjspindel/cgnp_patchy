@@ -104,8 +104,13 @@ class RingPattern(mb.Pattern):
         for xyz in pattern.points:
             if xyz[0] > bottom_patch3_cartesian[0]-patch_cutoff and xyz[0] < bottom_patch3_cartesian[0]+patch_cutoff and xyz[1] > bottom_patch3_cartesian[1]-patch_cutoff and xyz[1] < bottom_patch3_cartesian[1]+patch_cutoff and xyz[2] > bottom_patch3_cartesian[2]-patch_cutoff and xyz[2] < bottom_patch3_cartesian[2]+patch_cutoff:
                 points.append(xyz)
+        
+        reverse_pattern = []
+        for point in pattern:
+            if not np.all(np.isin(point, points)):
+                    reverse_pattern.append(point)
 
-        super(RingPattern, self).__init__(points=points, orientations=None)
+        super(RingPattern, self).__init__(points=reverse_pattern, orientations=None)
 
 
 if __name__ == "__main__":
