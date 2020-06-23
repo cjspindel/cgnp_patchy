@@ -34,6 +34,7 @@ def test_import():
     """ Test that mBuild recipe import works """
     assert "cgnp_patchy" in vars(mb.recipes).keys()
 
-def test_save(self, CGNanoparticle):
-    CGNanoparticle.save('cgnanoparticle.mol2', overwrite=True)
+def test_save():
+    nanoparticle = mb.recipes.cgnp_patchy(radius=2.5, bead_diameter=0.6, chain_density=2.0) 
+    nanoparticle.save('nanoparticle.mol2', overwrite=True)
 
