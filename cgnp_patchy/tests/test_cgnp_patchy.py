@@ -9,6 +9,7 @@ import sys
 import mbuild as mb
 import numpy as np
 
+'''
 class BaseTest:
     @pytest.fixture
     def Core(self):
@@ -19,14 +20,20 @@ class BaseTest:
         return CGAlkane()
 
     @pytest.fixture
-    def GraftedNanoparticle(self):
-        return cgnp_patchy(radius=2.5, bead_diameter=0.6, chain_density=2.0)
+    def CGNanoparticle(self):
+        from cgnp_patchy.cgnp_patchy import cgnp_patchy  
+        np = cgnp_patchy(radius=2.5, bead_diameter=0.6, chain_density=2.0)
+        return np 
+'''
 
-class TestCGNPBuilder(BaseTest):
-    def test_cgnp_patchy_imported():
-        """ Sample test, will always pass so long as import statement worked """
-        assert "cgnp_patchy" in sys.modules
+def test_cgnp_patchy_imported():
+    """ Sample test, will always pass so long as import statement worked """
+    assert "cgnp_patchy" in sys.modules
 
-    def test_import():
-        """ Test that mBuild recipe import works """
-        assert "cgnp_patchy" in vars(mb.recipes).keys()
+def test_import():
+    """ Test that mBuild recipe import works """
+    assert "cgnp_patchy" in vars(mb.recipes).keys()
+
+def test_save(self, CGNanoparticle):
+    CGNanoparticle.save('cgnanoparticle.mol2', overwrite=True)
+
