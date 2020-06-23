@@ -44,3 +44,6 @@ class CGAlkane(mb.Compound):
             # Hoist port label to CGAlkane level.
             self.add(chain['down'], label='down', containment=False)
 
+if __name__ == "__main__":
+    chain = CGAlkane()
+    chain.save('chain.mol2', overwrite=True)
