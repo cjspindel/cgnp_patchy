@@ -16,7 +16,7 @@ class RandomPattern(mb.Pattern):
     seed : int, optional, default=12345
         Seed for the random number generator
     """
-    def __init__(self, chain_density, radius, seed=12345):
+    def __init__(self, chain_density, radius, seed=12345, **args):
         np.random.seed(12345)
         pattern = mb.SpherePattern(int(chain_density * 20.0 * np.pi * radius**2.0))
         pattern.scale(radius)
