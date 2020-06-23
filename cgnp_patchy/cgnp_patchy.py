@@ -29,7 +29,7 @@ class cgnp_patchy(mb.Compound):
     """
     def __init__(self, radius, bead_diameter, chain_density, backfill=None, coating_pattern='isotropic', fractional_sa=0.2, **kwargs):
         super(cgnp_patchy, self).__init__()
-
+        
         self.bead_diameter = bead_diameter
         
         nano = Nanoparticle(radius, bead_diameter)
@@ -61,7 +61,9 @@ class cgnp_patchy(mb.Compound):
 
         if backfill and coating_pattern == 'random':
             raise Exception("Backfill not supported for coating pattern type 'random'.")
-        
+        elif backfill and coating_pattern == 'isotropic':
+            raise Exception("Backfill not supported for coating pattern type 'isotropic'.")
+
         if backfill:
             backfill_points = []
             for point in isotropic_pattern.points:
