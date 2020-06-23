@@ -1,3 +1,3 @@
-*mol2*
-*ipynp*
+*.mol2
+*.ipynb
 *.pyc
