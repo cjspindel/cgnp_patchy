@@ -5,7 +5,7 @@ import numpy as np
 
 
 class PolarPattern(mb.Pattern):
-    """A pattern where points are removed from one pole
+    """A nanoparticle coating pattern where points are removed from a single pole.
 
     Parameters
     ----------

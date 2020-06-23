@@ -5,7 +5,7 @@ import numpy as np
 
 
 class RandomPattern(mb.Pattern):
-    """A pattern where points are distributed semi-randomly
+    """A nanoparticle coating pattern where points are distributed semi-randomly.
 
     Parameters
     ----------

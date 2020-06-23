@@ -5,7 +5,7 @@ import numpy as np
 
 
 class SquarePattern(mb.Pattern):
-    """A pattern where points are removed from two poles
+    """A nanoparticle coating pattern where points are removed from two opposite poles on two axes.
 
     Parameters
     ----------
@@ -14,7 +14,7 @@ class SquarePattern(mb.Pattern):
     radius : float
         Radius of the nanoparticle (nm)
     fractional_sa : float
-        Fractional surface area of the nanoparticle to exclue coating (nm^2)
+        Fractional surface area of the nanoparticle to exclude coating (nm^2)
     """
     def __init__(self, chain_density, radius, fractional_sa, **args):
         pattern = mb.SpherePattern(int(chain_density * 4.0 * np.pi * radius**2.0))

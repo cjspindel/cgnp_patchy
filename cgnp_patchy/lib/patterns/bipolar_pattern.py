@@ -5,7 +5,7 @@ import numpy as np
 
 
 class BipolarPattern(mb.Pattern):
-    """A pattern where points are removed from two poles
+    """ A nanoparticle coating pattern where points are removed from two opposite poles.
 
     Parameters
     ----------

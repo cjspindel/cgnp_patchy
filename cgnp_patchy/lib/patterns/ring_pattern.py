@@ -5,6 +5,15 @@ import numpy as np
 
 
 def cartesian_to_spherical(origin=None, pos=None):
+    """ Converts cartesian coordinates to spherical coordinates
+        
+        Parameters
+        ----------
+        origin : np array
+            Center of the sphere
+        pos : np array
+            Coordinates to convert
+    """
     if origin==None:
         origin = np.array((0, 0, 0))
     else:
@@ -38,7 +47,13 @@ def cartesian_to_spherical(origin=None, pos=None):
     return np.array((r, theta, phi))
 
 def spherical_to_cartesian(pos=None):
-
+    """ Converts spherical coordinates to cartesian coordinates
+        
+        Parameters
+        ----------
+        pos : np array
+            Coordinates to convert
+    """
     pos = pos.reshape((3,))
 
     x = pos[0] * np.sin(pos[2]) * np.cos(pos[1])
@@ -48,7 +63,7 @@ def spherical_to_cartesian(pos=None):
     return np.array((x, y, z))
 
 class RingPattern(mb.Pattern):
-    """A pattern where points are removed from three poles. Tetrahedral pattern without top patch.
+    """A nanoparticle coating pattern where points are removed from three poles. This is the tetrahedral pattern without the top patch.
 
     Parameters
     ----------
@@ -57,7 +72,7 @@ class RingPattern(mb.Pattern):
     radius : float
         Radius of the nanoparticle (nm)
     fractional_sa : float
-        Fractional surface area of the nanoparticle to exclue coating (nm^2)
+        Fractional surface area of the nanoparticle to exclude coating (nm^2)
     """
     def __init__(self, chain_density, radius, fractional_sa, **args):
         
@@ -68,9 +83,6 @@ class RingPattern(mb.Pattern):
         patch_cutoff = np.sqrt((patch_sa)/(4*np.pi)) 
         #cutoff = patch_sa / (8 * np.pi * radius)
         cutoff = patch_cutoff 
-        print(total_sa)
-        print(cutoff)
-        print(patch_sa)
 
         #spherical_points = cartesian_to_spherical(pos=pattern.points)
         
@@ -82,10 +94,6 @@ class RingPattern(mb.Pattern):
         bottom_patch2_cartesian = spherical_to_cartesian(pos=bottom_patch2)
         bottom_patch3_cartesian = spherical_to_cartesian(pos=bottom_patch3)
        
-        print(bottom_patch1_cartesian)
-        print(bottom_patch2_cartesian)
-        print(bottom_patch2_cartesian)
- 
         points = []
 
         '''

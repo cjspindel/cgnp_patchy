@@ -5,7 +5,7 @@ import numpy as np
 
 
 class EquatorialPattern(mb.Pattern):
-    """A pattern where points are removed from the equator
+    """A nanoparticle coating pattern where points are removed from a band around the equator of the nanoparticle.
 
     Parameters
     ----------

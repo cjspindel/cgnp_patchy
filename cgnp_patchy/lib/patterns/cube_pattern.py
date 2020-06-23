@@ -5,7 +5,7 @@ import numpy as np
 
 
 class CubePattern(mb.Pattern):
-    """A pattern where points are removed from all six axies
+    """A nanoparticle coating pattern where points are removed from points on six axies.
 
     Parameters
     ----------
@@ -14,7 +14,7 @@ class CubePattern(mb.Pattern):
     radius : float
         Radius of the nanoparticle (nm)
     fractional_sa : float
-        Fractional surface area of the nanoparticle to exclue coating (nm^2)
+        Fractional surface area of the nanoparticle to exclude coating (nm^2)
     
     Note:
     ----------
