@@ -39,6 +39,10 @@ def test_alkane():
     chain = CGAlkane() 
     return chain
 
+def test_chainlength():
+    chain = CGAlkane(n=10)
+    assert chain.n_particles == 10
+
 def test_save():
     nanoparticle = mb.recipes.cgnp_patchy(radius=2.5, bead_diameter=0.6, chain_density=2.0) 
     nanoparticle.save('nanoparticle.mol2', overwrite=True)
