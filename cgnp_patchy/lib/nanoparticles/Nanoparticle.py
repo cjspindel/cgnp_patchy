@@ -75,3 +75,6 @@ class Nanoparticle(mb.Compound):
 
         return np.any(dists < 2.0 * radius)
 
+if __name__ == "__main__":
+    nano = Nanoparticle(2.5, 0.6)
+    nano.save('test_nanoparticle.mol2', overwrite=True)
