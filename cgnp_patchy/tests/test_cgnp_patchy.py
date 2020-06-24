@@ -9,6 +9,10 @@ import sys
 import mbuild as mb
 
 class BaseTest:
+    @pytest.fixture(autouse=True)
+    def initdir(self, tmpdir):
+        tmpdir.chdir()
+    
     @pytest.fixture
     def Core(self):
         from cgnp_patchy.lib.nanoparticles import Core
