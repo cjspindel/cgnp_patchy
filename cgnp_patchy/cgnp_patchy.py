@@ -1,7 +1,7 @@
 import mbuild as mb
 import numpy as np
 
-from cgnp_patchy.lib.nanoparticles import Nanoparticle
+from cgnp_patchy.lib.nanoparticles import Core
 from cgnp_patchy.lib.chains import CGAlkane
 from cgnp_patchy.lib.patterns import *
 
@@ -32,7 +32,7 @@ class cgnp_patchy(mb.Compound):
         
         self.bead_diameter = bead_diameter
         
-        nano = Nanoparticle(radius, bead_diameter)
+        nano = Core(radius, bead_diameter)
         self.add(nano, 'nanoparticle')
 
         isotropic_pattern = mb.SpherePattern(int(chain_density*4.0*np.pi*radius**2.0))
@@ -98,9 +98,9 @@ class cgnp_patchy(mb.Compound):
         # This is a temporary workaround until the 'apply_to_compound' method in mBuild is fixed -Andrew
         # Has the problem this was working around been fixed yet? If so, this code can be updated.
         for bond in self.bonds():
-            if bond[0].name == 'Nanoparticle' or bond[1].name == 'Nanoparticle':
-                if bond[0].name == 'Nanoparticle':
+            if bond[0].name == 'Core' or bond[1].name == 'Core':
+                if bond[0].name == 'Core':
                     bond[1].rigid_id = 0
-                if bond[1].name == 'Nanoparticle':
+                if bond[1].name == 'Core':
                     bond[0].rigid_id = 0
                 self.remove_bond(bond)

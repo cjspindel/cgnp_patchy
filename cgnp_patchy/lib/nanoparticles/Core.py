@@ -21,10 +21,18 @@ def _fast_sphere_pattern(n, radius):
 
     return points
 
-class Nanoparticle(mb.Compound):
-    """Coarse-gained nanoparticle class."""
+class Core(mb.Compound):
+    """ Builds a coarse-grained, silica nanoparticle core
+    
+        Parameters
+        ----------
+        r : float, default=5.0
+            The radius of the nanoparticle core
+        sigma : float, default=0.8
+            The diameter of nanoparticle core beads
+    """
     def __init__(self, r=5.0, sigma=0.8):
-        super(Nanoparticle, self).__init__()
+        super(Core, self).__init__()
 
         r_CG = sigma / 2
         r_silica = 0.40323 / 2
@@ -76,5 +84,5 @@ class Nanoparticle(mb.Compound):
         return np.any(dists < 2.0 * radius)
 
 if __name__ == "__main__":
-    nano = Nanoparticle(2.5, 0.6)
-    nano.save('test_nanoparticle.mol2', overwrite=True)
+    nano = Core(2.5, 0.6)
+    nano.save('test_core.mol2', overwrite=True)
