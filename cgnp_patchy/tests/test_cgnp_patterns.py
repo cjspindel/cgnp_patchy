@@ -4,7 +4,6 @@ Unit and regression tests for coating patterns in the cgnp_patchy package.
 
 import pytest
 import mbuild as mb
-import numpy as np
 
 def test_bipolar_pattern():
     from cgnp_patchy.lib.patterns import BipolarPattern

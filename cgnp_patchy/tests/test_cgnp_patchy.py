@@ -7,7 +7,6 @@ import cgnp_patchy
 import pytest
 import sys
 import mbuild as mb
-import numpy as np
 
 class BaseTest:
     @pytest.fixture
