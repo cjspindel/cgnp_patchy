@@ -13,12 +13,12 @@ class cgnp_patchy(mb.Compound):
     ----------
     radius : float
         Radius of the nanoparticle (nm)
-    bead_diameter : float
-        Diameter of CG particles in the nanoparticle core (nm)
     chain : mb.Compound
         Prototype of alkane chain to attach to the nanoparticle core. Not currently implemented.
     chain_density : float
         Density of chain coating on the nanoparticle (chains / nm^2)
+    bead_diameter : float, default=0.6
+        Diameter of CG particles in the nanoparticle core (nm)
     backfill : mb.Compound, optional, default=None
         Protoype of backfill to place at vacant sites on the nanoparticle
     coating_pattern : str, optional, default='isotropic'
@@ -27,7 +27,7 @@ class cgnp_patchy(mb.Compound):
     fractional_sa : float, default=0.2
         Fractional surface rea of the nanoparticle to exclude coating (nm^2)
     """
-    def __init__(self, radius, bead_diameter, chain_density, backfill=None, coating_pattern='isotropic', fractional_sa=0.2, **kwargs):
+    def __init__(self, radius, chain_density, bead_diameter=0.6, backfill=None, coating_pattern='isotropic', fractional_sa=0.2, **kwargs):
         super(cgnp_patchy, self).__init__()
         
         self.bead_diameter = bead_diameter
