@@ -16,7 +16,7 @@ class CubePattern(mb.Pattern):
     fractional_sa : float
         Fractional surface area of the nanoparticle to exclude coating (nm^2)
     
-    Note:
+    Note
     ----------
     - If fractional surface area is too large for the sphere you are trying to pattern,
         this program will not find any points that satisfy the cubic pattern, which will
@@ -24,6 +24,9 @@ class CubePattern(mb.Pattern):
     - The issue happens when cutoff is close to 1
     """
     def __init__(self, chain_density, radius, fractional_sa, **args):
+        if fractional_sa >= 0.8:
+            raise Exception("Coating pattern 'cubic' only works for fraction surface area values of 0.8 and below.")
+
         pattern = mb.SpherePattern(int(chain_density * 4.0 * np.pi * radius**2.0))
         pattern.scale(radius)
         total_sa = 4.0 * np.pi * radius**2.0
@@ -33,10 +36,10 @@ class CubePattern(mb.Pattern):
                            and xyz[2] > cutoff-radius and xyz[1] < radius-cutoff
                            and xyz[1] > cutoff-radius and xyz[0] < radius-cutoff
                            and xyz[0] > cutoff-radius])
-        #import pdb;pdb.set_trace()
+        
         super(CubePattern, self).__init__(points=points, orientations=None)
 
 if __name__ == "__main__":
     from save_pattern import save_pattern
-    cube_pattern = CubePattern(4.0, 2.0, 0.5)
+    cube_pattern = CubePattern(4.0, 2.5, 0.79)
     save_pattern('test.xyz', cube_pattern)
