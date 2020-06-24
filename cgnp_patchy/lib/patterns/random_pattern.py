@@ -24,3 +24,8 @@ class RandomPattern(mb.Pattern):
         points = pattern.points[:int(len(pattern.points)/5)]
 
         super(RandomPattern, self).__init__(points=points, orientations=None)
+
+if __name__ == "__main__":
+    from save_pattern import save_pattern 
+    random_pattern = RandomPattern(3.0, 2.5, 123)
+    save_pattern('test.xyz', random_pattern)
