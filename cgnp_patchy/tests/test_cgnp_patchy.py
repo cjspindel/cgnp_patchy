@@ -11,7 +11,8 @@ import mbuild as mb
 class BaseTest:
     @pytest.fixture
     def Core(self):
-        return Nanoparticle(radius=2.5, bead_diameter=0.6) 
+        from cgnp_patchy.lib.nanoparticles import Nanoparticle
+        return Nanoparticle(2.5, 0.6) 
     
     @pytest.fixture
     def Alkane(self):
@@ -32,6 +33,9 @@ class TestNanoparticleBuilder(BaseTest):
     def test_import(self):
         """ Test that mBuild recipe import works """
         assert "cgnp_patchy" in vars(mb.recipes).keys()
+
+    def test_core_beads(self, Core):
+        assert len(Core.children) == 153 
 
     def test_chainlength(self):
         from cgnp_patchy.lib.chains import CGAlkane
