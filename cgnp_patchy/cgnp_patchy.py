@@ -49,7 +49,7 @@ class cgnp_patchy(mb.Compound):
         elif coating_pattern == 'square':
             pattern = SquarePattern(chain_density, radius, fractional_sa, **kwargs)
         elif coating_pattern == 'random':
-            pattern = RandomPattern(chain_density, radius, fractional_sa, **kwargs)
+            pattern = RandomPattern(chain_density, radius, **kwargs)
         elif coating_pattern == 'cube':
             pattern = CubePattern(chain_density, radius, fractional_sa, **kwargs)
         elif coating_pattern == 'tetrahedral':
