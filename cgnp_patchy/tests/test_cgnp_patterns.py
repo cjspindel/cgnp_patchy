@@ -4,6 +4,13 @@ Unit and regression tests for coating patterns in the cgnp_patchy package.
 
 import pytest
 import mbuild as mb
+import numpy as np
+
+def test_mbuild_sphere_pattern():
+    radius = 2.5
+    point_density = 3.0 
+    pattern = mb.SpherePattern(int(point_density*4.0*np.pi*radius**2.0))
+    assert len(pattern.points) == 235
 
 def test_bipolar_pattern():
     from cgnp_patchy.lib.patterns import BipolarPattern
