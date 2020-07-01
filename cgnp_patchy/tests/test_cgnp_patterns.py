@@ -16,7 +16,14 @@ class BaseTest():
         return pattern
 
 class TestPatterns(BaseTest):
+    ''' 
+    Each pattern test checks if:
+    - the number of points included in the pattern is equal to a set amount,
+    - the number of points removed to create the pattern is equal to a set amount,
+    - the number of points remaining and the number of points removed is equal to the number of points in 
+    ''' 
     def test_mbuild_sphere_pattern(self, IsotropicPattern):
+        ''' If this fails, it's likely mBuild's SpherePattern has been changed ''' 
         assert len(IsotropicPattern.points) == 235
 
     def test_bipolar_pattern(self, IsotropicPattern):
