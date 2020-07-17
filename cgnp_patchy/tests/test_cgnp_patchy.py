@@ -15,8 +15,8 @@ class BaseTest:
     
     @pytest.fixture
     def Core(self):
-        from cgnp_patchy.lib.nanoparticles import Core
-        return Core(2.5, 0.6) 
+        from cgnp_patchy.lib.nanoparticles import Nanoparticle
+        return Nanoparticle(2.5, 0.6) 
     
     @pytest.fixture
     def Alkane(self):

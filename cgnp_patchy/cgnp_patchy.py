@@ -1,7 +1,7 @@
 import mbuild as mb
 import numpy as np
 
-from cgnp_patchy.lib.nanoparticles import Core
+from cgnp_patchy.lib.nanoparticles import Nanoparticle
 from cgnp_patchy.lib.chains import CGAlkane
 from cgnp_patchy.lib.patterns import *
 
@@ -32,9 +32,11 @@ class cgnp_patchy(mb.Compound):
         
         self.bead_diameter = bead_diameter
         
-        nano = Core(radius, bead_diameter)
+        nano = Nanoparticle(radius, bead_diameter)
         self.add(nano, 'nanoparticle')
 
+        chain = CGAlkane()
+        
         isotropic_pattern = mb.SpherePattern(int(chain_density*4.0*np.pi*radius**2.0))
         isotropic_pattern.scale(radius)
        
@@ -63,13 +65,13 @@ class cgnp_patchy(mb.Compound):
             raise Exception("Backfill not supported for coating pattern type 'random'.")
         elif backfill and coating_pattern == 'isotropic':
             raise Exception("Backfill not supported for coating pattern type 'isotropic'.")
-
+        
         if backfill:
             backfill_points = []
             for point in isotropic_pattern.points:
                 if not np.all(np.isin(point, pattern.points)):
                     backfill_points.append(point)
-        
+      
         # Hacky workaround until apply_to_compound below can be used
         for pos in pattern.points:
             port = mb.Port(anchor=self['nanoparticle'], orientation=pos, separation=radius)
@@ -77,9 +79,10 @@ class cgnp_patchy(mb.Compound):
             chain = CGAlkane()
             self.add(chain)
             mb.force_overlap(chain, chain['up'], port)  
-        #chain_protos, empty_backfill = isotropic_pattern.apply_to_compound(guest=chain, guest_port_name='up', host=self['nanoparticle'])
+
+        #chain_protos, empty_backfill = pattern.apply_to_compound(guest=chain, guest_port_name='up', host=self)
         #self.add(chain_protos)
-       
+        
         if backfill:
             pattern.points = np.array(backfill_points)
             # Problems with apply_to_compound again, temporarily replaced with workaround used with pattern
@@ -91,16 +94,16 @@ class cgnp_patchy(mb.Compound):
                 mb.force_overlap(b_chain, b_chain['up'], port)
             #backfill_protos, empty_backfill = pattern.apply_to_compound(backfill, guest_port_name='up', host=self['nanoparticle'])
             #self.add(backfill_protos)
-       
-
+        
         self.label_rigid_bodies(rigid_particles='_CGN')
 
         # This is a temporary workaround until the 'apply_to_compound' method in mBuild is fixed -Andrew
         # Has the problem this was working around been fixed yet? If so, this code can be updated.
         for bond in self.bonds():
-            if bond[0].name == 'Core' or bond[1].name == 'Core':
-                if bond[0].name == 'Core':
+            if bond[0].name == 'Nanoparticle' or bond[1].name == 'Nanoparticle':
+                if bond[0].name == 'Nanoparticle':
                     bond[1].rigid_id = 0
-                if bond[1].name == 'Core':
+                if bond[1].name == 'Nanoparticle':
                     bond[0].rigid_id = 0
                 self.remove_bond(bond)
+
